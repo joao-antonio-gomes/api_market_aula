@@ -9,4 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CategoryDto {
     private String name;
+
+    public CategoryDto() {
+    }
 }

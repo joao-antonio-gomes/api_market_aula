@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -22,7 +21,7 @@ public class Customer {
     private String cpf;
     private LocalDate birthDate;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_customer",
             joinColumns = @JoinColumn(name = "customer_id"),
