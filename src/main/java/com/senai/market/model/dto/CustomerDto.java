@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,4 +14,5 @@ public class CustomerDto {
     private String name;
     private String cpf;
     private LocalDate birthDate;
+    private Set<ProductDto> products;
 }
