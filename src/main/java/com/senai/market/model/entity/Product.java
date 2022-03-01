@@ -1,5 +1,6 @@
 package com.senai.market.model.entity;
 
+import com.senai.market.model.dto.CategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @Table(name = "product")
 public class Product {
     @Id
@@ -19,7 +19,7 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    private String price;
+    private Double price;
 
     @OneToOne
     @JoinColumn(name = "category_id")
@@ -31,4 +31,14 @@ public class Product {
     public Product() {
 
     }
+
+    public Product(String name, String description, Double price, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
 }
+
+
+

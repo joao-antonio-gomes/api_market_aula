@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity
 @Table(name = "category")
 public class Category {
@@ -23,5 +22,9 @@ public class Category {
 
     public Category() {
 
+    }
+
+    public Category(String name) {
+        this.name = name;
     }
 }
