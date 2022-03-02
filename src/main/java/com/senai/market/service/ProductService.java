@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,5 +53,17 @@ public class ProductService {
         Product productSaved = productRepository.save(product);
 
         logger.log(Level.INFO, "Usuário cadastrou produto id " + productSaved.getId());
+    }
+
+    @SneakyThrows
+    public void delete(Integer id) {
+        Optional<Product> productById = productRepository.findById(Long.valueOf(id));
+        if (productById.isPresent()) {
+            logger.log(Level.INFO, "Usuário deletou produto com id " + productById.get().getId());
+            productRepository.delete(productById.get());
+            return;
+        }
+        logger.log(Level.WARNING, "Usuário tentou deletar produto com id inexistente nº: " + id);
+        throw new ProductException("Não existe produto com esse id!");
     }
 }
