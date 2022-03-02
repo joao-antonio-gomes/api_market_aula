@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class ProductDto {
+    private UUID uuid;
     private String name;
     private String description;
     private Double price;
