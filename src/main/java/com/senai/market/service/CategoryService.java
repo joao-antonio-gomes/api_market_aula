@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
@@ -22,8 +23,10 @@ public class CategoryService {
     public void create(CategoryDto categoryDto) {
         Optional<Category> categoryByName = categoryRepository.findCategoryByName(categoryDto.getName());
         if (categoryByName.isPresent()) {
-            throw new CategoryException("Já existe categoria registrada com o nome " + categoryByName.get().getName());
+            logger.log(Level.WARNING, "Usuário tentou adicionar categoria já existente: " + categoryDto.getName());
+            throw new CategoryException("Já existe categoria registrada com o nome " + categoryDto.getName());
         }
+        logger.log(Level.INFO, "Categoria adicionada: " + categoryDto.getName());
         categoryRepository.save(new Category(categoryDto.getName()));
     }
 
@@ -31,8 +34,10 @@ public class CategoryService {
     public Category getCategoryByName(String name) {
         Optional<Category> category = this.categoryRepository.findCategoryByName(name);
         if (category.isPresent()) {
+            logger.log(Level.INFO, "Categoria encontrada em consulta no banco: " + category.get().getName());
             return category.get();
         }
+        logger.log(Level.WARNING, "Categoria não encontrada em consulta no banco: " + name);
         throw new CategoryException("Categoria não existe!");
     }
 }
