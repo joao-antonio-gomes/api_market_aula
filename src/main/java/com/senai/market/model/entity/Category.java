@@ -14,8 +14,10 @@ import java.util.UUID;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private UUID uuid = UUID.randomUUID();
     private String name;
 
     @OneToOne(mappedBy = "category")

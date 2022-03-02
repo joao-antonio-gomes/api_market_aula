@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -21,8 +23,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
-        productService.delete(Integer.valueOf(id));
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        productService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

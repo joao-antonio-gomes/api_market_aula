@@ -16,8 +16,10 @@ import java.util.UUID;
 @Table(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private UUID uuid = UUID.randomUUID();
     private String name;
     private String cpf;
     private LocalDate birthDate;

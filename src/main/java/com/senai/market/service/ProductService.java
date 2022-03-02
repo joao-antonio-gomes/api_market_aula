@@ -6,12 +6,11 @@ import com.senai.market.model.entity.Category;
 import com.senai.market.model.entity.Product;
 import com.senai.market.model.repository.ProductRepository;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,10 +55,10 @@ public class ProductService {
     }
 
     @SneakyThrows
-    public void delete(Integer id) {
-        Optional<Product> productById = productRepository.findById(Long.valueOf(id));
+    public void delete(UUID id) {
+        Optional<Product> productById = productRepository.findByUuid(id);
         if (productById.isPresent()) {
-            logger.log(Level.INFO, "Usuário deletou produto com id " + productById.get().getId());
+            logger.log(Level.INFO, "Usuário deletou produto com id " + productById.get().getUuid());
             productRepository.delete(productById.get());
             return;
         }
