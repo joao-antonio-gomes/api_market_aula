@@ -1,6 +1,7 @@
 package com.senai.market.service;
 
 import com.senai.market.exception.ProductException;
+import com.senai.market.model.dto.CategoryDto;
 import com.senai.market.model.dto.ProductDto;
 import com.senai.market.model.entity.Category;
 import com.senai.market.model.entity.Product;
@@ -9,10 +10,12 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -64,5 +67,17 @@ public class ProductService {
         }
         logger.log(Level.WARNING, "Usuário tentou deletar produto com id inexistente nº: " + id);
         throw new ProductException("Não existe produto com esse id!");
+    }
+
+    public List<ProductDto> getAllProducts() {
+        List<Product> productsEntitie = productRepository.findAll();
+        return productsEntitie.stream().map(product -> {
+            return new ProductDto(product.getUuid(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getPrice(),
+                    new CategoryDto(product.getCategory().getName()));
+        })
+                .collect(Collectors.toList());
     }
 }
