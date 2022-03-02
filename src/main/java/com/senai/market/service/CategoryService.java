@@ -18,7 +18,12 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @SneakyThrows
     public void create(CategoryDto categoryDto) {
+        Optional<Category> categoryByName = categoryRepository.findCategoryByName(categoryDto.getName());
+        if (categoryByName.isPresent()) {
+            throw new CategoryException("Já existe categoria registrada com o nome " + categoryByName.get().getName());
+        }
         categoryRepository.save(new Category(categoryDto.getName()));
     }
 
@@ -26,7 +31,7 @@ public class CategoryService {
     public Category getCategoryByName(String name) {
         Optional<Category> category = this.categoryRepository.findCategoryByName(name);
         if (category.isPresent()) {
-            return (Category) category.get();
+            return category.get();
         }
         throw new CategoryException("Categoria não existe!");
     }
