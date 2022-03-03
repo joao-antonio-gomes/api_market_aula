@@ -116,4 +116,15 @@ public class ProductService {
         logger.log(Level.WARNING, "Usuário tentou buscar produto com id inexistente nº: " + id);
         throw new ProductException("Não existe produto com esse id!");
     }
+
+    @SneakyThrows
+    public ProductDto findMostExpensiveProduct() {
+        Optional<Product> productOptional = productRepository.findFirstByOrderByPriceAsc();
+        if (productOptional.isPresent()) {
+            logger.log(Level.INFO, "Usuário buscou o produto mais caro");
+            return new ProductDto(productOptional.get().getUuid(), productOptional.get().getName(), productOptional.get().getDescription(), productOptional.get().getPrice(), new CategoryDto(productOptional.get().getCategory().getName()));
+        }
+        logger.log(Level.WARNING, "Não existe produto cadastrado");
+        throw new ProductException("Não existe produto cadastrado!");
+    }
 }

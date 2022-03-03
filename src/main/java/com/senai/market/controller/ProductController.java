@@ -46,4 +46,10 @@ public class ProductController {
         ProductDto product = productService.getById(id);
         return ResponseEntity.ok(product);
     }
+
+    @GetMapping("/findMostExpensiveProduct")
+    public ResponseEntity<?> findMostExpensiveProduct() {
+        ProductDto product = productService.findMostExpensiveProduct();
+        return ResponseEntity.ok(product);
+    }
 }
