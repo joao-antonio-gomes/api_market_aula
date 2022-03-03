@@ -40,4 +40,10 @@ public class ProductController {
         List<ProductDto> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        ProductDto product = productService.getById(id);
+        return ResponseEntity.ok(product);
+    }
 }

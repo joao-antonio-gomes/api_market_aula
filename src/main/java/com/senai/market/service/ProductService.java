@@ -105,4 +105,15 @@ public class ProductService {
         productRepository.save(productToUpdate);
         logger.log(Level.INFO, "Usuário atualizou produto com id " + product.getUuid());
     }
+
+    @SneakyThrows
+    public ProductDto getById(UUID id) {
+        Optional<Product> byUuid = productRepository.getByUuid(id);
+        if (byUuid.isPresent()) {
+            logger.log(Level.INFO, "Usuário buscou produto com id " + byUuid.get().getUuid());
+            return new ProductDto(byUuid.get().getUuid(), byUuid.get().getName(), byUuid.get().getDescription(), byUuid.get().getPrice(), new CategoryDto(byUuid.get().getCategory().getName()));
+        }
+        logger.log(Level.WARNING, "Usuário tentou buscar produto com id inexistente nº: " + id);
+        throw new ProductException("Não existe produto com esse id!");
+    }
 }
