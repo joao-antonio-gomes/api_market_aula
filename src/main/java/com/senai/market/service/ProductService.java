@@ -80,4 +80,29 @@ public class ProductService {
         })
                 .collect(Collectors.toList());
     }
+
+    @SneakyThrows
+    public void update(UUID id, ProductDto productDto) {
+        Optional<Product> productById = productRepository.findByUuid(id);
+        if (productById.isEmpty()) {
+            logger.log(Level.WARNING, "Usuário tentou atualizar produto com id inexistente nº: " + id);
+            throw new ProductException("Não existe produto com esse id!");
+        }
+        Product product = productById.get();
+        if (productDto.getName().isEmpty()) {
+            productDto.setName(product.getName());
+        }
+        if (productDto.getDescription().isEmpty()) {
+            productDto.setDescription(product.getDescription());
+        }
+        if (productDto.getPrice().isNaN() || productDto.getPrice() == null) {
+            productDto.setPrice(product.getPrice());
+        }
+        if (productDto.getCategory() == null) {
+            productDto.setCategory(new CategoryDto(product.getCategory().getName()));
+        }
+        Product productToUpdate = new Product(productDto.getName(), productDto.getDescription(), productDto.getPrice(), categoryService.getCategoryByName(productDto.getCategory().getName()));
+        productRepository.save(productToUpdate);
+        logger.log(Level.INFO, "Usuário atualizou produto com id " + product.getUuid());
+    }
 }

@@ -23,6 +23,12 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody ProductDto productDto) {
+        productService.update(id, productDto);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         productService.delete(id);
